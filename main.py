@@ -63,7 +63,7 @@ def add_potential(data):
   mapping = create_mapping(key, potential_to_add.shape, lattice_shape)
   pot2 = np.zeros(lattice_shape)
   pot2[mapping] = potential_to_add.flatten()
-  potential[mapping] += pot2
+  potential += pot2
 
 def get_spikes(data):
   #map some spikes to desired shape
