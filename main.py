@@ -125,7 +125,7 @@ routes = {
     "": lambda _: step(),
     "reward": add_reward,
     "add-potential": add_potential,
-    "get-spikes": lambda _: get_spikes()
+    "get-spikes": get_spikes
 }
 
 ProtoPost(routes).start(PORT)
