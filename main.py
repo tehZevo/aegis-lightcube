@@ -5,6 +5,7 @@ from skimage.util import view_as_windows
 
 from protopost import ProtoPost
 from nd_to_json import nd_to_json, json_to_nd
+from chonky import create_mapping
 
 PORT = int(os.getenv("PORT", 80))
 DIMENSIONS = int(os.getenv("DIMENSIONS", 2))
@@ -55,10 +56,22 @@ def add_reward(r):
 
 def add_potential(data):
   global potential
-  potential += json_to_nd(data)
+  #add potential based on chonky mapping
+  key = data["key"]
+  potential_to_add = data["potential"]
+  potential_to_add = json_to_nd(potential_to_add)
+  mapping = create_mapping(key, potential_to_add.shape, lattice_shape)
+  potential[mapping] += potential_to_add.flatten()
 
-def get_spikes():
-  return nd_to_json(spikes.numpy())
+def get_spikes(data):
+  #map some spikes to desired shape
+  key = data["key"]
+  shape = data["shape"]
+  mapping = create_mapping(key, lattice_shape, shape)
+  out_spikes = np.zeros(shape)
+  out_spikes[mapping] = spikes.numpy().flatten()
+
+  return nd_to_json(out_spikes)
 
 def train(reward):
   global potential, spikes, weights, traces

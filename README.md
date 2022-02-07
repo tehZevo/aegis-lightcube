@@ -11,3 +11,4 @@ A recurrent, locally-connected, homeostatic spiking neural network using TensorF
 * sparse add_potential?
 * allow for arbitrary lattice and kernel sizes (ie not nd cubes)?
 * add saving/loading models
+* document sparse IO usage (string, nd array)
