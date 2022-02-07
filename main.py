@@ -5,21 +5,22 @@ from skimage.util import view_as_windows
 from protopost import ProtoPost
 from nd_to_json import nd_to_json, json_to_nd
 
-#TODO: env vars
-PORT = 80
-DIMENSIONS = 2
-LATTICE_SIZE = 64
-KERNEL_SIZE = 5
+PORT = int(os.getenv("PORT", 80))
+DIMENSIONS = int(os.getenv("DIMENSIONS", 2))
+LATTICE_SIZE = int(os.getenv("LATTICE_SIZE", 32))
+KERNEL_SIZE = int(os.getenv("KERNEL_SIZE", 3))
 
-AUTO_REWARD = False #if true, will apply 1.0 reward every step for STDP purposes
+#if true, will apply 1.0 reward every step for STDP purposes
+AUTO_REWARD = os.getenv("AUTO_REWARD", "false") == "true"
 
-LEARNING_RATE = 1e-0
-SPIKE_DECAY = 1e-1
-POTENTIAL_INCREASE_MIN = 1e-3 #NOTE: same
-POTENTIAL_INCREASE_MAX = 1e-3
-TRACE_DECAY = 1e-2
-REFRACTORY = 0.1
-SPIKE_EFFICIENCY = 1.0 #0.9 #prevent transferring 100% of spike, otherwise negative rewards can lead to blocks of always-on neurons; seems unneded if refractory > 0
+LEARNING_RATE = float(os.getenv("LEARNING_RATE", 1e-0))
+SPIKE_DECAY = float(os.getenv("SPIKE_DECAY", 1e-1))
+POTENTIAL_INCREASE_MIN = float(os.getenv("POTENTIAL_INCREASE_MIN", 1e-3)) #NOTE: same
+POTENTIAL_INCREASE_MAX = float(os.getenv("POTENTIAL_INCREASE_MAX", 1e-3))
+TRACE_DECAY = float(os.getenv("TRACE_DECAY", 1e-2))
+REFRACTORY = float(os.getenv("REFRACTORY", 0.1))
+#prevent transferring 100% of spike, otherwise negative rewards can lead to blocks of always-on neurons; seems unneded if refractory > 0
+SPIKE_EFFICIENCY = float(os.getenv("SPIKE_EFFICIENCY", 1.0)) #0.9
 
 def normalize(v, axis=-1):
   v = tf.clip_by_value(v, 0.0, 1.0)
