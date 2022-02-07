@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+
+  lightcube:
+    build: .
+    ports:
+      - "8080:80"

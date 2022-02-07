@@ -1,0 +1,5 @@
+scikit-image
+tensorflow
+numpy
+git+https://github.com/tehzevo/protopost-python
+git+https://github.com/tehzevo/nd-to-json
