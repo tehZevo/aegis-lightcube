@@ -44,6 +44,7 @@ kernel_shape = [KERNEL_SIZE for _ in range(DIMENSIONS)]
 #initialization
 potential = np.random.uniform(0, 1, lattice_shape).astype("float32")
 spikes = np.zeros_like(potential)
+new_spikes = np.zeros_like(potential)
 weights = np.random.uniform(0, 1, [np.prod(lattice_shape), np.prod(kernel_shape)]).astype("float32")
 weights = normalize(weights)
 traces = np.zeros_like(weights)
@@ -71,7 +72,7 @@ def get_spikes(data):
   shape = data["shape"]
   mapping = create_mapping(key, lattice_shape, shape)
   out_spikes = np.zeros(shape)
-  out_spikes[mapping] = spikes.numpy().flatten()
+  out_spikes[mapping] = new_spikes.numpy().flatten()
 
   return nd_to_json(out_spikes)
 
@@ -85,7 +86,7 @@ def train(reward):
   traces *= (1 - TRACE_DECAY)
 
 def step():
-  global potential, spikes, weights, traces, reward
+  global potential, spikes, new_spikes, weights, traces, reward
 
   #automatically increase potential over time
   increase = tf.random.uniform(potential.shape, POTENTIAL_INCREASE_MIN, POTENTIAL_INCREASE_MAX)
